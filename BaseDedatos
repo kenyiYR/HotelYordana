@@ -1,0 +1,226 @@
+# HotelYordana
+
+CREATE DATABASE Y_HotelBD;
+USE Y_HotelBD;
+
+-- Creación de la tabla Y_Cliente
+CREATE TABLE Y_Cliente (
+    Y_DNICliente INT PRIMARY KEY,
+    Y_Nombre NVARCHAR(50),
+    Y_Apellido NVARCHAR(50),
+    Y_Direccion NVARCHAR(255),
+    Y_Telefono NVARCHAR(15),
+    Y_CorreoElectronico NVARCHAR(255),
+	Y_Edad INT,
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255)
+);
+-- Creación de la tabla Y_Habitacion
+CREATE TABLE Y_Habitacion (
+    Y_IDHabitacion INT PRIMARY KEY,
+    Y_Numero INT,
+    Y_Tipo NVARCHAR(50),
+    Y_TarifaPorNoche DECIMAL(10, 2),
+    Y_Disponibilidad BIT,
+    Y_Descripcion NVARCHAR(255),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255),
+);
+-- Creación de la tabla Y_Reserva
+CREATE TABLE Y_Reserva (
+    Y_IDReserva INT PRIMARY KEY,
+	Y_IDHabitacion INT,
+	Y_DNICliente INT,
+    Y_FechaEntrada DATE,
+    Y_FechaSalida DATE,
+    Y_NumeroHuespedes INT,
+    Y_Estado NVARCHAR(50),
+    Y_CostoTotal DECIMAL(10, 2),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255),
+    FOREIGN KEY (Y_DNICliente) REFERENCES Y_Cliente(Y_DNICliente),
+	FOREIGN KEY (Y_IDHabitacion) REFERENCES Y_Habitacion(Y_IDHabitacion)
+);
+
+-- Creación de la tabla Y_Factura
+CREATE TABLE Y_Factura (
+    Y_IDFactura INT PRIMARY KEY,
+    Y_FechaEmision DATE,
+	Y_DNICliente INT,
+    Y_CostoTotal DECIMAL(10, 2),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255),
+	FOREIGN KEY (Y_DNICliente) REFERENCES Y_Cliente(Y_DNICliente)
+);
+
+-- Creación de la tabla Y_Pago
+CREATE TABLE Y_Pago (
+    Y_IDPago INT PRIMARY KEY,
+	Y_IDFactura INT,
+    Y_FechaPago DATE,
+    Y_MetodoPago NVARCHAR(50),
+    Y_CantidadPagada DECIMAL(10, 2),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255),
+	FOREIGN KEY (Y_IDFactura) REFERENCES Y_Factura(Y_IDFactura)
+);
+
+
+
+-- Creación de la tabla Y_ServicioAdicional
+CREATE TABLE Y_ServicioAdicional (
+    Y_IDServicio INT PRIMARY KEY,
+    Y_Nombre NVARCHAR(50),
+    Y_Costo DECIMAL(10, 2),
+    Y_Disponibilidad NVARCHAR(255),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255)
+);  
+
+-- Creación de la tabla Y_USUARIO
+CREATE TABLE Y_USUARIO (
+    Y_IDUsuario INT PRIMARY KEY,
+    Y_Nombre NVARCHAR(50),
+    Y_IDUsuarioC INT,
+    Y_FechaC DATE,
+    Y_HoraC TIME,
+    Y_LugarC NVARCHAR(255),
+    Y_IDUsuarioA INT,
+    Y_FechaA DATE,
+    Y_HoraA TIME,
+    Y_LugarA NVARCHAR(255)
+);
+
+
+-- Creación de la tabla ReservaServicioAdicional (Tabla de relación entre Reserva y ServicioAdicional)
+CREATE TABLE Y_ReservaServicioAdicional (
+    Y_IDReserva INT,
+    Y_IDServicio INT,
+    PRIMARY KEY (Y_IDReserva, Y_IDServicio),
+    FOREIGN KEY (Y_IDReserva) REFERENCES Y_Reserva(Y_IDReserva),
+    FOREIGN KEY (Y_IDServicio) REFERENCES Y_ServicioAdicional(Y_IDServicio)
+);
+
+-- Inserción de datos en la tabla Y_USUARIO
+INSERT INTO Y_USUARIO (Y_IDUsuario, Y_Nombre, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 'Usuario1', NULL, '2023-10-31', '12:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(2, 'Usuario2', NULL, '2023-10-31', '14:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, 'Usuario3', NULL, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, 'Usuario4', NULL, '2023-10-31', '18:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, 'Usuario5', NULL, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, 'Usuario6', NULL, '2023-10-31', '22:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, 'Usuario7', NULL, '2023-10-31', '23:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+
+-- Inserción de datos en la tabla Y_Cliente
+INSERT INTO Y_Cliente (Y_DNICliente, Y_Nombre, Y_Apellido, Y_Direccion, Y_Telefono, Y_CorreoElectronico, Y_Edad, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 'Juan', 'Pérez', 'Calle 123, Lima, Perú', '123-456-7890', 'juan.perez@example.com', 30, 1, '2023-10-31', '14:30:00', 'Tarma' , NULL, NULL, NULL, NULL),
+(2, 'María', 'Gómez', 'Avenida 456, Arequipa, Perú', '987-654-3210', 'maria.gomez@example.com', 28, 1, '2023-10-31', '15:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, 'Carlos', 'López', 'Jr. 789, Cusco, Perú', '456-789-0123', 'carlos.lopez@example.com', 35, 1, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, 'Luisa', 'Torres', 'Calle 456, Lima, Perú', '789-012-3456', 'luisa.torres@example.com', 22, 1, '2023-10-31', '17:45:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, 'Ana', 'Sánchez', 'Av. 789, Arequipa, Perú', '123-234-5678', 'ana.sanchez@example.com', 40, 1, '2023-10-31', '18:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, 'Javier', 'García', 'Jr. 123, Cusco, Perú', '987-876-5432', 'javier.garcia@example.com', 33, 1, '2023-10-31', '19:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, 'Sofía', 'Martínez', 'Calle 234, Lima, Perú', '123-567-8901', 'sofia.martinez@example.com', 27, 1, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+-- Inserción de datos en la tabla Y_Habitacion
+INSERT INTO Y_Habitacion (Y_IDHabitacion, Y_Numero, Y_Tipo, Y_TarifaPorNoche, Y_Disponibilidad, Y_Descripcion, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 101, 'Doble', 120.00, 1, 'Habitación doble con vista al mar', 1, '2023-10-31', '14:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(2, 102, 'Individual', 80.00, 1, 'Habitación individual con desayuno incluido', 1, '2023-10-31', '15:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, 103, 'Suite', 180.00, 0, 'Suite de lujo con jacuzzi', 1, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, 104, 'Doble', 120.00, 1, 'Habitación doble con balcón', 1, '2023-10-31', '17:45:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, 105, 'Individual', 80.00, 1, 'Habitación individual estándar', 1, '2023-10-31', '18:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, 201, 'Suite', 180.00, 1, 'Suite con vista panorámica', 1, '2023-10-31', '19:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, 202, 'Doble', 120.00, 0, 'Habitación doble estándar', 1, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+
+-- Inserción de datos en la tabla Y_Reserva
+INSERT INTO Y_Reserva (Y_IDReserva, Y_IDHabitacion, Y_DNICliente, Y_FechaEntrada, Y_FechaSalida, Y_NumeroHuespedes, Y_Estado, Y_CostoTotal, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 1, 1, '2023-11-01', '2023-11-05', 2, 'Confirmada', 480.00, 1, '2023-10-31', '14:30:00', 'Lima', NULL, NULL, NULL, NULL),
+(2, 2, 2, '2023-11-02', '2023-11-06', 1, 'Confirmada', 320.00, 1, '2023-10-31', '15:15:00', 'Arequipa', NULL, NULL, NULL, NULL),
+(3, 3, 3, '2023-11-03', '2023-11-07', 2, 'Pendiente', 360.00, 1, '2023-10-31', '16:00:00', 'Cusco', NULL, NULL, NULL, NULL),
+(4, 4, 4, '2023-11-04', '2023-11-08', 1, 'Confirmada', 480.00, 1, '2023-10-31', '17:45:00', 'Lima', NULL, NULL, NULL, NULL),
+(5, 5, 5, '2023-11-05', '2023-11-09', 2, 'Pendiente', 320.00, 1, '2023-10-31', '18:30:00', 'Arequipa', NULL, NULL, NULL, NULL),
+(6, 6, 6, '2023-11-06', '2023-11-10', 1, 'Confirmada', 360.00, 1, '2023-10-31', '19:15:00', 'Cusco', NULL, NULL, NULL, NULL),
+(7, 7, 7, '2023-11-07', '2023-11-11', 2, 'Pendiente', 480.00, 1, '2023-10-31', '20:00:00', 'Lima', NULL, NULL, NULL, NULL);
+
+-- Inserción de datos en la tabla Y_Factura
+INSERT INTO Y_Factura (Y_IDFactura, Y_FechaEmision, Y_DNICliente, Y_CostoTotal, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, '2023-11-06', 1, 480.00, 1, '2023-10-31', '14:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(2, '2023-11-07', 2, 320.00, 1, '2023-10-31', '15:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, '2023-11-08', 3, 360.00, 1, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, '2023-11-09', 4, 480.00, 1, '2023-10-31', '17:45:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, '2023-11-10', 5, 320.00, 1, '2023-10-31', '18:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, '2023-11-11', 6, 360.00, 1, '2023-10-31', '19:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, '2023-11-12', 7, 480.00, 1, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+ 
+-- Inserción de datos en la tabla Y_Pago
+INSERT INTO Y_Pago (Y_IDPago, Y_IDFactura, Y_FechaPago, Y_MetodoPago, Y_CantidadPagada, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 1, '2023-11-06', 'Tarjeta de crédito', 480.00, 1, '2023-10-31', '14:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(2, 2, '2023-11-07', 'Efectivo', 320.00, 1, '2023-10-31', '15:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, 3, '2023-11-08', 'Tarjeta de débito', 360.00, 1, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, 4, '2023-11-09', 'Yape', 480.00, 1, '2023-10-31', '17:45:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, 5, '2023-11-10', 'Efectivo', 320.00, 1, '2023-10-31', '18:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, 6, '2023-11-11', 'Tarjeta de crédito', 360.00, 1, '2023-10-31', '19:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, 7, '2023-11-12', 'Yape', 480.00, 1, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+
+ -- Inserción de datos en la tabla Y_ServicioAdicional
+INSERT INTO Y_ServicioAdicional (Y_IDServicio, Y_Nombre, Y_Costo, Y_Disponibilidad, Y_IDUsuarioC, Y_FechaC, Y_HoraC, Y_LugarC, Y_IDUsuarioA, Y_FechaA, Y_HoraA, Y_LugarA)
+VALUES
+(1, 'Desayuno', 10.00, 'Disponible', 1, '2023-10-31', '14:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(2, 'Limpieza diaria', 20.00, 'No disponible', 1, '2023-10-31', '15:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(3, 'WiFi', 5.00, 'Disponible', 1, '2023-10-31', '16:00:00', 'Tarma', NULL, NULL, NULL, NULL),
+(4, 'Transporte al aeropuerto', 25.00, 'Disponible', 1, '2023-10-31', '17:45:00', 'Tarma', NULL, NULL, NULL, NULL),
+(5, 'Piscina', 15.00, 'No disponible', 1, '2023-10-31', '18:30:00', 'Tarma', NULL, NULL, NULL, NULL),
+(6, 'Gimnasio', 10.00, 'Disponible', 1, '2023-10-31', '19:15:00', 'Tarma', NULL, NULL, NULL, NULL),
+(7, 'Servicio de habitación', 20.00, 'Disponible', 1, '2023-10-31', '20:00:00', 'Tarma', NULL, NULL, NULL, NULL);
+
+-- Inserción de relaciones en la tabla Y_ReservaServicioAdicional
+INSERT INTO Y_ReservaServicioAdicional (Y_IDReserva, Y_IDServicio)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7);
+
