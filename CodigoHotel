@@ -12,6 +12,7 @@ public class RegistroReservaGUI extends JFrame {
 
     private JTextField nombreField;
     private JTextField apellidoField;
+    private JTextField dniField;
 
     public RegistroReservaGUI() {
         setTitle("Bienvenido a Hotel Yordana");
@@ -21,20 +22,22 @@ public class RegistroReservaGUI extends JFrame {
         initComponents();
 
         pack();
-        setSize(400, 250);
+        setSize(400, 300);
         setResizable(false);
     }
 
     private void initComponents() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2, 10, 10));
+        panel.setLayout(new GridLayout(5, 2, 10, 10));
         panel.setBackground(new Color(173, 216, 230)); // Color de fondo (Azul claro)
 
         JLabel nombreLabel = new JLabel("Nombre:");
         JLabel apellidoLabel = new JLabel("Apellido:");
+        JLabel dniLabel = new JLabel("DNI:");
 
         nombreField = new JTextField();
         apellidoField = new JTextField();
+        dniField = new JTextField();
 
         JButton aceptarButton = new JButton("Aceptar");
         JButton cancelarButton = new JButton("Cancelar");
@@ -57,6 +60,8 @@ public class RegistroReservaGUI extends JFrame {
         panel.add(nombreField);
         panel.add(apellidoLabel);
         panel.add(apellidoField);
+        panel.add(dniLabel);
+        panel.add(dniField);
         panel.add(new JLabel()); // Espaciador
         panel.add(aceptarButton);
         panel.add(new JLabel()); // Espaciador
